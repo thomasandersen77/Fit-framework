@@ -1,0 +1,3 @@
+org.jboss.resteasy.cdi.ResteasyCdiExtension
+org.github.fit.core.ResourceExtension
+org.github.fit.core.ProviderExtension
