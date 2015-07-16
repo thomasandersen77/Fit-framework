@@ -2,60 +2,63 @@ package org.github.fit.undertow;
 
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
-import io.undertow.server.HttpServerExchange;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.api.ServletInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.github.fit.ConfigurableTestContainer;
+import org.github.fit.ServerConfig;
+import org.github.fit.TestContainer;
 import org.github.fit.core.CDIInjectorFactory;
 import org.github.fit.core.ProviderExtension;
 import org.github.fit.core.ResourceExtension;
-import org.github.fit.undertow.CDIRequestListener;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.ext.cdi1x.internal.CdiComponentProvider;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.jboss.resteasy.cdi.CdiInjectorFactory;
 import org.jboss.resteasy.cdi.ResteasyCdiExtension;
 import org.jboss.resteasy.plugins.server.servlet.HttpServlet30Dispatcher;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
+import sun.nio.ch.Net;
 
 import javax.servlet.ServletException;
 import javax.ws.rs.core.Application;
-import java.net.URI;
+import java.net.InetSocketAddress;
 
 /**
  * Created by thomas on 15.07.15.
  */
 @Slf4j
-public class UndertowWeldCdiTestContainer extends ConfigurableTestContainer {
+public class UndertowTestContainer implements TestContainer {
 
     private WeldContainer weldContainer;
-    private Weld weld;
+
     private Undertow server;
+    private Application application;
+    private Package scanPackage;
     private String baseUri;
+    private int port;
+    private String bindAddress;
+    private Weld weld = new Weld();
 
-    public UndertowWeldCdiTestContainer(Class packageToScan, Application jaxRsApplication, String baseUri, int port) {
+    public UndertowTestContainer(ServerConfig config) {
+        this.bindAddress = config.getAddress() == null ? "0.0.0.0" : config.getAddress();
+        this.port = config.getPort() > 0 ? config.getPort() : 9998;
+        this.application = config.getApplication();
+        this.scanPackage = Package.getPackage(config.getScanPackage());
+    }
 
-        // System.setProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager");
-
-        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-
-        weld = new Weld();
+    @Override
+    public void start() {
         try {
-            weld.addPackage(true, packageToScan);
+            long start = System.currentTimeMillis();
+            ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+            weld.addPackage(true, scanPackage.getClass());
             weld.extensions(new ResteasyCdiExtension(), new ProviderExtension(), new ResourceExtension());
             weld.setClassLoader(systemClassLoader);
-            //weldContainer = weld.initialize();
-
+            weldContainer = weld.initialize();
 
             ResteasyDeployment resteasyDeployment = new ResteasyDeployment();
-            resteasyDeployment.setApplication(jaxRsApplication);
+            resteasyDeployment.setApplication(application);
             resteasyDeployment.setInjectorFactoryClass(CDIInjectorFactory.class.getName());
 
             ListenerInfo listener = Servlets.listener(CDIRequestListener.class);
@@ -66,10 +69,10 @@ public class UndertowWeldCdiTestContainer extends ConfigurableTestContainer {
                     .addMapping("/*");
 
             DeploymentInfo deploymentInfo = new DeploymentInfo()
-            .addListener(listener)
+                    .addListener(listener)
                     .setContextPath("/")
                     .addServletContextAttribute(ResteasyDeployment.class.getName(), resteasyDeployment)
-                    .addServlet(resteasyServlet).setDeploymentName("TestContainerUndertowCdi")
+                    .addServlet(resteasyServlet).setDeploymentName("UndertowTestContainer")
                     .setClassLoader(systemClassLoader);
 
             DeploymentManager deploymentManager = Servlets.defaultContainer().addDeployment(deploymentInfo);
@@ -77,13 +80,13 @@ public class UndertowWeldCdiTestContainer extends ConfigurableTestContainer {
 
 
             try {
+                HttpHandler httpHandler = deploymentManager.start();
                 server = Undertow.builder()
-                            .addHttpListener(port, getBaseUri())
-                            .setDirectBuffers(true)
-                            .setWorkerThreads(3)
-                            .setHandler(deploymentManager.start())
-                            .build();
-                //server.start();
+                        .addHttpListener(port, bindAddress)
+                        .setHandler(httpHandler)
+                        .build();
+                server.start();
+                log.info("Server started in [{}] ms.", (System.currentTimeMillis() - start));
             } catch (ServletException e) {
                 e.printStackTrace();
                 stop();
@@ -97,27 +100,23 @@ public class UndertowWeldCdiTestContainer extends ConfigurableTestContainer {
     }
 
     @Override
-    public void start() {
-        long start = System.currentTimeMillis();
-        weldContainer = weld.initialize();
-        server.start();
-        long startupTime = (System.currentTimeMillis() - start);
-        log.info("Server oppe. Oppstarten tok [" + startupTime + "] ms.");
-    }
-
     public void stop() {
         if(server != null) server.stop();
         if(weldContainer != null) weldContainer.shutdown();
-        log.info("******************* Stoppet test server *****************************");
+        log.info("Server stopped...");
     }
-
-    public String  getBaseUri() {
-        return baseUri;
-    }
-
 
     @Override
-    protected void configure() {
+    public String getAddress() {
+        return Net.checkAddress(new InetSocketAddress(bindAddress, port)).getHostName();
+    }
 
+    /**
+     * retrive it just experiment some more
+     * @return
+     */
+    @Override
+    public Weld getWeld() {
+        return weld;
     }
 }

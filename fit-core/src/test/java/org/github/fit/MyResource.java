@@ -1,4 +1,4 @@
-package org.github.fit.undertow;
+package org.github.fit;
 
 import org.github.fit.api.Resource;
 
