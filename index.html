@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>FiT-framework  by thomasandersen77</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">FiT-framework </h1>
+      <h2 class="project-tagline"># Fast Integration Test framework for mainly JVM applications provided. This project came into being after bar fights with Arquillian. He was alway so... slow ;)#</h2>
+      <a href="https://github.com/thomasandersen77/Fit-framework" class="btn">View on GitHub</a>
+      <a href="https://github.com/thomasandersen77/Fit-framework/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/thomasandersen77/Fit-framework/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="fit-framework-framework" class="anchor" href="#fit-framework-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>FiT-framework framework</h1>
+
+<p>This project came into existence in trying to create a lightning fast integration test framework that can handle plain JAX-RS application running in say Spring-Boot with an embedded tomcat (I am aware when using Jersey alone you can utilize their great test-framework). </p>
+
+<p>The goal though is to expand the framework to handle an application running on say JBoss using Reastasy as their implementation, or a Dropwizard application exposing services with HTTP (e.g. REST) with a backing database.</p>
+
+<p>The main goal is to make it modular, where each test-application has its own container or "fragment." </p>
+
+<p>If you haven't checked it out yet, you can find many nice examples here at the home of Wildfly-Swarm   <a href="https://github.com/wildfly-swarm/wildfly-swarm-examples">wildfly-swarm-examples</a>. </p>
+
+<p>E.g. Wildfly-Swarm uses undertow for HTTP-handling (and more), something magic happens under the hood and they would get a Undertow, which can handle CDI, and these few lines:</p>
+
+<pre><code>ListenerInfo listener = Servlets.listener(CDIRequestListener.class);
+resteasyDeployment.setInjectorFactoryClass(CDIInjectorFactory.class.getName());
+</code></pre>
+
+<p>Currently I am working for a great customer who's organization has embraced Docker and have amazingly created a very solid infrastructure. </p>
+
+<p>I feel very strongly that this is a very sound, logical and healthy approach to doing micro-services. By that I mean that you could have very (many or few) light containers, running the code and doing the tasks they are designed to do. Then orchestrate then via <code>compose</code> or maybe <code>docker-swarm.</code> Say you have a some messageQueue that normally takes most of the load... Solution could be to spin up one or two more, and of course make sure your messages are handled properly :)    </p>
+
+<p>Back to this FiT framework I was talking about. They should:</p>
+
+<ul>
+<li>run very, very fast</li>
+<li>Test the core business logic of your application (e.g. say a simple application that receives (REST/HTTP) requests, stores them in a database, and finally gives some response, hopefully <code>OK 200</code>)</li>
+<li>You do NOT need your entire infrastructure for running these "integration tests". It is safe to mock out a few of them.</li>
+<li>The tests are intended to be a tool for the developers, but they should run so fast that no programmer would be tempted to do <code>mvn install -DskipTests</code>. :)</li>
+</ul>
+
+<p>For this framework to run their tests faster than "The Flash", they need something more. </p>
+
+<ul>
+<li>Support for CDI </li>
+<li>Enterprise like behaviour, Messaging, Container managed datasources, etc.<br>
+</li>
+<li>I have started with Weld here but that could change.* </li>
+</ul>
+
+<p>In the enterprise world where the great people from RedHat works, Wildfly-Swarm is a decomposed Java EE server. Here you actually just pick the stuff you need to complete your task, messaging, logstash integration, jaxrs with msc, jaxrs running in Docker containers with very little footprint, JPA with container-managed Persistence Context, a ManagedExecutorService... You name it. </p>
+
+<p>For that last one mentioned, the Managed Executor Service was introduced in Java EE 7 (Wildfly 8.2) luckily it extends the ExecutorService in the JDK (this gives us the option of mimicking container behavior in the (production) code you test by utilizing Mockito and inject an Alternative or a <a href="https://github.com/Named" class="user-mention">@Named</a> instance of the ExecutorService as a mock. </p>
+
+<p>Take the code for a test-ride, and if you see something that is good or bad by all means, comment and please contribute back via pull-requests if you find it interesting!</p>
+
+<p>Best regards,
+Thomas Andersen</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/thomasandersen77/Fit-framework">FiT-framework </a> is maintained by <a href="https://github.com/thomasandersen77">thomasandersen77</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
