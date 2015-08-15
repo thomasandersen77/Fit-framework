@@ -2,15 +2,20 @@ package org.github.fit;
 
 import org.github.fit.api.Resource;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-/**
- * Created by thomas on 15.07.15.
- */
 @Resource
 @Path("/")
 public class MyResource {
+
+    //@Inject
+    private CdiBean cdiBean;
+
+    public MyResource() {
+        // org.jboss.resteasy.spi.metadata.ResourceBuilder must have a public default constructor
+    }
 
     @GET
     public String echo(){

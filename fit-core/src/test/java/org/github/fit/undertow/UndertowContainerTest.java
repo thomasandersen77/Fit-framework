@@ -36,7 +36,9 @@ public class UndertowContainerTest {
 
     @Test
     public void test_dummy() throws Exception {
-        String response = ResteasyClientBuilder.newClient().target("http://localhost:9998/").request(MediaType.TEXT_PLAIN_TYPE).get(String.class);
+        String response = ResteasyClientBuilder.newClient()
+                .target("http://localhost:9998/")
+                .request(MediaType.TEXT_PLAIN_TYPE).get(String.class);
         System.out.println(response);
     }
 }

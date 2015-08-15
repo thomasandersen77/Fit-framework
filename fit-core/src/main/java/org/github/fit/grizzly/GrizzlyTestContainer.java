@@ -6,7 +6,6 @@ import org.github.fit.ServerConfig;
 import org.github.fit.TestContainer;
 import org.github.fit.core.ProviderExtension;
 import org.github.fit.core.ResourceExtension;
-import org.github.fit.undertow.CDIRequestListener;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;

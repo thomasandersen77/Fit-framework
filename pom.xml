@@ -11,6 +11,7 @@
 
     <modules>
         <module>fit-core</module>
+        <module>fit-integration-tests</module>
     </modules>
 
     <dependencyManagement>
