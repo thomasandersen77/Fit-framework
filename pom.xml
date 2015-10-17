@@ -10,11 +10,18 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>fit-core</module>
+        <module>undertow-jaxrs-cdi-testcontainer</module>
+        <module>jersey-jaxrs-testcontainer</module>
+        <module>fit-common</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>2.6.1</version>
+            </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>javax.ws.rs-api</artifactId>
@@ -34,6 +41,11 @@
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-grizzly2-http</artifactId>
                 <version>2.18</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers.glassfish</groupId>
+                <artifactId>jersey-gf-cdi</artifactId>
+                <version>2.14</version>
             </dependency>
             <dependency>
                 <groupId>io.undertow</groupId>
@@ -71,11 +83,6 @@
                 <version>1.16.4</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.7.12</version>
-            </dependency>
-            <dependency>
                 <groupId>org.glassfish.jersey.ext.cdi</groupId>
                 <artifactId>jersey-weld2-se</artifactId>
                 <version>2.18</version>
@@ -84,6 +91,56 @@
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock</artifactId>
+                <version>1.57</version>
+
+                <!-- Include everything below here if you have dependency conflicts -->
+                <classifier>standalone</classifier>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpclient</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.skyscreamer</groupId>
+                        <artifactId>jsonassert</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xmlunit</groupId>
+                        <artifactId>xmlunit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.jayway.jsonpath</groupId>
+                        <artifactId>json-path</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>net.sf.jopt-simple</groupId>
+                        <artifactId>jopt-simple</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
