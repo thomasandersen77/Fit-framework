@@ -6,21 +6,24 @@ import com.github.fit.common.TestContainer;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
+
 import static com.github.fit.common.ServerConfig.builder;
 
-public class TestAppConfigurationRule implements MethodRule, TestRule {
+@Slf4j
+public class JaxRsIntegrationTestRule implements MethodRule, TestRule {
     private final int integrationPort;
     private final int localPort;
     private WireMockServer wireMockServer;
     private TestContainer testContainer;
 
-    public TestAppConfigurationRule(int localPort, int integrationPort, String scanPackage) {
+    public JaxRsIntegrationTestRule(int localPort, int integrationPort, String scanPackage) {
         System.out.println("local: " + localPort);
         System.out.println("integration: " + integrationPort);
         this.localPort = localPort;

@@ -6,6 +6,7 @@ import com.github.fit.common.TestContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 @Slf4j
 public class GrizzlyTestContainerTest {
 
+    @Ignore
     @Test
     public void test_my_resource() throws Exception {
         Response res = ClientBuilder.newClient()
