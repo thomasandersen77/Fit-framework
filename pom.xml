@@ -3,7 +3,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <groupId>org.github.fit-framework</groupId>
+    <groupId>com.github.fit-framework</groupId>
     <artifactId>fit-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
@@ -11,12 +11,32 @@
 
     <modules>
         <module>undertow-jaxrs-cdi-testcontainer</module>
-        <module>jersey-jaxrs-testcontainer</module>
-        <module>fit-common</module>
+        <module>jaxrs-cdi-ejb3-example</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.6.1</version>
+            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jdk8</artifactId>
@@ -32,21 +52,21 @@
                 <artifactId>weld-se-core</artifactId>
                 <version>3.0.0.Alpha11</version>
             </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-                <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-                <version>2.18</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-grizzly2-http</artifactId>
-                <version>2.18</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.containers.glassfish</groupId>
-                <artifactId>jersey-gf-cdi</artifactId>
-                <version>2.14</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.glassfish.jersey.test-framework.providers</groupId>-->
+                <!--<artifactId>jersey-test-framework-provider-grizzly2</artifactId>-->
+                <!--<version>2.18</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.glassfish.jersey.containers</groupId>-->
+                <!--<artifactId>jersey-container-grizzly2-http</artifactId>-->
+                <!--<version>2.18</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.glassfish.jersey.containers.glassfish</groupId>-->
+                <!--<artifactId>jersey-gf-cdi</artifactId>-->
+                <!--<version>2.14</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
@@ -82,11 +102,11 @@
                 <artifactId>lombok</artifactId>
                 <version>1.16.4</version>
             </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.ext.cdi</groupId>
-                <artifactId>jersey-weld2-se</artifactId>
-                <version>2.18</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.glassfish.jersey.ext.cdi</groupId>-->
+                <!--<artifactId>jersey-weld2-se</artifactId>-->
+                <!--<version>2.18</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>

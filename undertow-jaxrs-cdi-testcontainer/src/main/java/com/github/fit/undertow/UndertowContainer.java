@@ -1,6 +1,6 @@
 package com.github.fit.undertow;
 
-import com.github.fit.common.*;
+import com.github.fit.core.*;
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import io.undertow.servlet.Servlets;
@@ -17,22 +17,26 @@ import org.jboss.weld.environment.se.WeldContainer;
 
 import javax.servlet.ServletException;
 import javax.ws.rs.core.Application;
+import java.util.Objects;
 
 
 @Slf4j
 public class UndertowContainer implements TestContainer {
-
     private WeldContainer weldContainer;
     private Undertow server;
     private Application application;
-    private Package scanPackage;
+    private Class rootClass;
     private int port;
     private Weld weld = new Weld();
 
     public UndertowContainer(ServerConfig config) {
         this.port = config.getPort();
         this.application = config.getApplication();
-        this.scanPackage = Package.getPackage(config.getScanPackage());
+        this.rootClass = config.getRootClass();
+        Objects.requireNonNull(rootClass, "The package must exist for the package scan to work");
+        Objects.requireNonNull(application, "jAX_RS Application configuration cannot be null");
+
+        log.info("TestContainer ServerConfig: {}", JsonUtil.toJson(config, true));
     }
 
     @Override
@@ -40,7 +44,7 @@ public class UndertowContainer implements TestContainer {
         try {
             long start = System.currentTimeMillis();
             ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-            weld.addPackage(true, scanPackage.getClass());
+            weld.addPackage(true, rootClass.getClass());
             weld.extensions(new ResteasyCdiExtension(), new ProviderExtension(), new ResourceExtension());
             weld.setClassLoader(systemClassLoader);
             weldContainer = weld.initialize();
