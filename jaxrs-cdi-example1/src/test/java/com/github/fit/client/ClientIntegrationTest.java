@@ -1,7 +1,7 @@
 package com.github.fit.client;
 
 
-import com.github.fit.app.JaxrsApplication;
+import com.github.fit.examples.JaxrsApplication;
 import com.github.fit.rule.JaxRsIntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.github.fit.app;
+package com.github.fit.examples;
 
 import javax.ejb.Startup;
 import javax.ejb.Stateless;

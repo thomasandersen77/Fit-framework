@@ -1,8 +1,8 @@
-package com.github.fit.app;
+package com.github.fit.examples;
 
-import com.github.fit.app.jaxrs.CheckUsernameRequestFilter;
-import com.github.fit.app.jaxrs.ForbiddenExceptionMapper;
-import com.github.fit.app.jaxrs.MyResource;
+import com.github.fit.examples.jaxrs.CheckUsernameRequestFilter;
+import com.github.fit.examples.jaxrs.ForbiddenExceptionMapper;
+import com.github.fit.examples.jaxrs.MyResource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

@@ -1,4 +1,4 @@
-package com.github.fit.app.jaxrs;
+package com.github.fit.examples;
 
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.container.ContainerRequestContext;
