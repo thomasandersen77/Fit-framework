@@ -11,7 +11,7 @@
 
     <modules>
         <module>undertow-jaxrs-cdi-testcontainer</module>
-        <module>fit-common</module>
+        <module>jaxrs-cdi-example1</module>
     </modules>
 
     <dependencyManagement>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fit-common</artifactId>
+    <artifactId>jaxrs-cdi-example1</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.github.fit-framework</groupId>
