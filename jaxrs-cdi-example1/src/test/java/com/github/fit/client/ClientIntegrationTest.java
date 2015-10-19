@@ -2,7 +2,7 @@ package com.github.fit.client;
 
 
 import com.github.fit.examples.JaxrsApplication;
-import com.github.fit.rule.JaxRsIntegrationTestRule;
+import com.github.fit.rule.IntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,7 +19,7 @@ public class ClientIntegrationTest {
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 
     @Rule
-    public JaxRsIntegrationTestRule container = new JaxRsIntegrationTestRule(new JaxrsApplication());
+    public IntegrationTestRule container = new IntegrationTestRule(new JaxrsApplication());
 
     @Before
     public void setUpMockedAdress() {

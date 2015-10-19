@@ -2,7 +2,7 @@ package com.github.fit.undertow;
 
 
 import com.github.fit.examples.MyApplication;
-import com.github.fit.rule.JaxRsIntegrationTestRule;
+import com.github.fit.rule.IntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
 import org.junit.Rule;
@@ -21,7 +21,7 @@ public class UndertowContainerTest {
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 
     @Rule
-    public JaxRsIntegrationTestRule container = new JaxRsIntegrationTestRule(new MyApplication());
+    public IntegrationTestRule container = new IntegrationTestRule(new MyApplication());
 
     @Before
     public void setUpMockedAdress() {

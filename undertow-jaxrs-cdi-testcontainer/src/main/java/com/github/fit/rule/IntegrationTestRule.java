@@ -14,12 +14,12 @@ import org.junit.runners.model.Statement;
 import javax.ws.rs.core.Application;
 
 
-public class JaxRsIntegrationTestRule implements MethodRule, TestRule {
+public class IntegrationTestRule implements MethodRule, TestRule {
     private final int wiremockPort = HttpUtils.allocatePort();
     private WireMockServer wireMockServer;
     private UndertowContainer testContainer;
 
-    public JaxRsIntegrationTestRule(Application application) {
+    public IntegrationTestRule(Application application) {
         this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(wiremockPort));
         this.testContainer = new UndertowContainer(application);
     }
