@@ -34,6 +34,13 @@ public class UndertowContainer {
     }
 
     public void start() {
+        if(server != null && weldContainer !=null && weldContainer.isRunning()) {
+            System.err.println(" >>> Server already running...");
+            System.out.println("\t- weldContainer = " + weldContainer);
+            System.out.println("\t- server = " + server);
+            return;
+        }
+
         try {
             long start = System.currentTimeMillis();
             ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();

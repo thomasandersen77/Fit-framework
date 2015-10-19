@@ -12,6 +12,11 @@ public class MyIntegrationEJB {
 
     Client myClient = ClientBuilder.newClient();
 
+
+    public MyIntegrationEJB() {
+        System.out.println("****** onStartup ************");
+    }
+
     public String foo(){
         String urlEjbIntegration = System.getProperty("it.ejb.url");
 

@@ -1,12 +1,14 @@
 package com.github.fit.undertow;
 
 
+import com.github.fit.annotations.FitITestRunner;
 import com.github.fit.examples.MyApplication;
 import com.github.fit.rule.IntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,17 +18,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(FitITestRunner.class)
 public class UndertowContainerTest {
 
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 
     @Rule
-    public IntegrationTestRule container = new IntegrationTestRule(new MyApplication());
+    public IntegrationTestRule container = new IntegrationTestRule(new MyApplication(), true, false);
 
     @Before
     public void setUpMockedAdress() {
         System.setProperty("it.ejb.url", "http://localhost:" + container.getWiremockPort() +"/integration/ejb/message");
-        System.setProperty("url.remote.proxy", "http://localhost:" + container.getWiremockPort() +"/proxy");
     }
 
     @Before

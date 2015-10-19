@@ -19,12 +19,11 @@ public class ClientIntegrationTest {
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 
     @Rule
-    public IntegrationTestRule container = new IntegrationTestRule(new JaxrsApplication());
+    public IntegrationTestRule container = new IntegrationTestRule(new JaxrsApplication(), true, false);
 
     @Before
     public void setUpMockedAdress() {
         System.setProperty("it.ejb.url", "http://localhost:" + container.getWiremockPort() +"/integration/ejb/message");
-        System.setProperty("url.remote.proxy", "http://localhost:" + container.getWiremockPort() +"/proxy");
     }
 
     @Before public void configureStub() {
@@ -45,6 +44,7 @@ public class ClientIntegrationTest {
 
         assertNotNull(response);
         assertTrue(response.contains(WIREMOCK_STRING_RESPONSE));
+        System.err.println(response);
     }
 
     @Test
