@@ -1,4 +1,4 @@
-package com.github.fit.app;
+package com.github.fit.examples;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

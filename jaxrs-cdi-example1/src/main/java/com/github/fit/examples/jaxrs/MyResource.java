@@ -1,7 +1,7 @@
-package com.github.fit.app.jaxrs;
+package com.github.fit.examples.jaxrs;
 
 
-import com.github.fit.app.beans.MyInjectableBean;
+import com.github.fit.examples.cdi.MyInjectableBean;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

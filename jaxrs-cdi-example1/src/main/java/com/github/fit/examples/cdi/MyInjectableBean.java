@@ -1,4 +1,4 @@
-package com.github.fit.app.beans;
+package com.github.fit.examples.cdi;
 
 import javax.inject.Inject;
 

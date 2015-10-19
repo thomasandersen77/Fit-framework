@@ -1,14 +1,13 @@
 package com.github.fit.client;
 
 
-import com.github.fit.app.JaxrsApplication;
+import com.github.fit.examples.JaxrsApplication;
 import com.github.fit.rule.JaxRsIntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 

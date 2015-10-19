@@ -1,6 +1,4 @@
-package com.github.fit.app.beans;
-
-import lombok.extern.slf4j.Slf4j;
+package com.github.fit.examples.cdi;
 
 import javax.ejb.Startup;
 import javax.ejb.Stateless;

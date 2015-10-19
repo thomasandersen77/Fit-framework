@@ -1,4 +1,4 @@
-package com.github.fit.app.jaxrs;
+package com.github.fit.examples;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

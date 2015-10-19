@@ -1,7 +1,7 @@
 package com.github.fit.undertow;
 
 
-import com.github.fit.app.MyApplication;
+import com.github.fit.examples.MyApplication;
 import com.github.fit.rule.JaxRsIntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
