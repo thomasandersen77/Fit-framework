@@ -1,4 +1,4 @@
-package com.github.fit.util;
+package com.github.fit.undertow;
 
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;

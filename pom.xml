@@ -11,7 +11,6 @@
 
     <modules>
         <module>undertow-jaxrs-cdi-testcontainer</module>
-        <module>jersey-jaxrs-testcontainer</module>
         <module>fit-common</module>
     </modules>
 

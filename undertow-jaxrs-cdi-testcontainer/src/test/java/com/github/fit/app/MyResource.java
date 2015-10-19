@@ -1,13 +1,10 @@
 package com.github.fit.app;
 
 
-import com.github.fit.common.HttpResource;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-@HttpResource
 @Path("/")
 public class MyResource {
 
@@ -15,7 +12,8 @@ public class MyResource {
 
     @GET
     public String echo(){
-        return "From Server: " + myInjectableBean;
+        return "Echo from resource. Message from injected bean: \n" +
+                "\t[" + myInjectableBean +"]";
     }
 
 }

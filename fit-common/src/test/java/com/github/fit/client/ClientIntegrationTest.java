@@ -1,27 +1,26 @@
-package com.github.fit.undertow;
+package com.github.fit.client;
 
 
-import com.github.fit.app.MyApplication;
+import com.github.fit.app.JaxrsApplication;
 import com.github.fit.rule.JaxRsIntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class UndertowContainerTest {
+public class ClientIntegrationTest {
 
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 
     @Rule
-    public JaxRsIntegrationTestRule container = new JaxRsIntegrationTestRule(new MyApplication());
+    public JaxRsIntegrationTestRule container = new JaxRsIntegrationTestRule(new JaxrsApplication());
 
     @Before
     public void setUpMockedAdress() {
@@ -29,8 +28,7 @@ public class UndertowContainerTest {
         System.setProperty("url.remote.proxy", "http://localhost:" + container.getWiremockPort() +"/proxy");
     }
 
-    @Before
-    public void configureStub() {
+    @Before public void configureStub() {
         stubFor(get(urlEqualTo("/integration/ejb/message"))
                 .willReturn(aResponse()
                         .withStatus(200)
@@ -39,9 +37,21 @@ public class UndertowContainerTest {
     }
 
     @Test
+    public void test_my_resource_with_valid_username_to_string() throws Exception {
+        String response = ResteasyClientBuilder.newClient()
+                .target("http://localhost:" + container.getAppPort())
+                .request(MediaType.TEXT_PLAIN_TYPE)
+                .header("username", "thomas")
+                .get(String.class);
+
+        assertNotNull(response);
+        assertTrue(response.contains(WIREMOCK_STRING_RESPONSE));
+    }
+
+    @Test
     public void test_my_resource_with_valid_username() throws Exception {
         Response response = ResteasyClientBuilder.newClient()
-                .target("http://localhost:"+ container.getAppPort())
+                .target("http://localhost:" + container.getAppPort())
                 .request(MediaType.TEXT_PLAIN_TYPE)
                 .accept(MediaType.TEXT_PLAIN_TYPE)
                 .header("username", "thomas")
@@ -51,16 +61,4 @@ public class UndertowContainerTest {
         assertEquals(200, response.getStatus());
     }
 
-    @Test
-    public void test_my_resource_with_valid_username_to_string() throws Exception {
-          String response = ResteasyClientBuilder.newClient()
-                .target("http://localhost:"+ container.getAppPort())
-                .request(MediaType.TEXT_PLAIN_TYPE)
-                .header("username", "thomas")
-                .get(String.class);
-
-        assertNotNull(response);
-        assertTrue(response.contains(WIREMOCK_STRING_RESPONSE));
-        //System.out.println("Response message: " + response);
-    }
 }

@@ -1,46 +1,35 @@
 package com.github.fit.rule;
 
-import com.github.fit.UndertowContainerFactory;
-import com.github.fit.app.MyApplication;
-import com.github.fit.common.TestContainer;
+import com.github.fit.undertow.UndertowContainer;
+import com.github.fit.undertow.HttpUtils;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
+import javax.ws.rs.core.Application;
 
-import static com.github.fit.common.ServerConfig.builder;
 
-@Slf4j
 public class JaxRsIntegrationTestRule implements MethodRule, TestRule {
-    private final int integrationPort;
-    private final int localPort;
+    private final int wiremockPort = HttpUtils.allocatePort();
     private WireMockServer wireMockServer;
-    private TestContainer testContainer;
+    private UndertowContainer testContainer;
 
-    public JaxRsIntegrationTestRule(int localPort, int integrationPort, String scanPackage) {
-        System.out.println("local: " + localPort);
-        System.out.println("integration: " + integrationPort);
-        this.localPort = localPort;
-        this.integrationPort = integrationPort;
-        this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(integrationPort));
-        this.testContainer = UndertowContainerFactory.configure(builder()
-                .application(new MyApplication())
-                .port(localPort)
-                .scanPackage(scanPackage).build());
+    public JaxRsIntegrationTestRule(Application application) {
+        this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(wiremockPort));
+        this.testContainer = new UndertowContainer(application);
     }
 
-    public int getLocalPort() {
-        return localPort;
+    public int getAppPort() {
+        return testContainer.getPort();
     }
 
-    public int getIntegrationPort() {
-        return integrationPort;
+    public int getWiremockPort() {
+        return wiremockPort;
     }
 
     @Override
@@ -49,7 +38,7 @@ public class JaxRsIntegrationTestRule implements MethodRule, TestRule {
             @Override
             public void evaluate() throws Throwable {
                 wireMockServer.start();
-                WireMock.configureFor("localhost", getIntegrationPort());
+                WireMock.configureFor("localhost", getWiremockPort());
                 testContainer.start();
                 try {
                     before();
