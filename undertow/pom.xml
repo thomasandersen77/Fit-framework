@@ -4,19 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.github.fit-framework</groupId>
-        <artifactId>fit-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <groupId>com.github.fit.EmbeddedTomcat-framework</groupId>
+        <artifactId>fit-framework</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
 
-    <artifactId>undertow-jaxrs-cdi-testcontainer</artifactId>
+    <artifactId>undertow-server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
