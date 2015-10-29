@@ -2,7 +2,7 @@ package com.github.fit.examples;
 
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -12,12 +12,13 @@ public class MyResource {
     @Inject MyInjectableBean myInjectableBean;
 
     @Inject
-    EntityManager entityManager;
+    @Named(value = "testProduce")
+    MyProducedBean myProducedBean;
 
     @GET
     public String echo(){
         System.out.println("Inide echo");
-        System.out.println(entityManager);
+        System.out.println(myProducedBean);
         return "Echo from resource. Message from injected bean: \n" +
                 "\t[" + myInjectableBean +"]";
     }

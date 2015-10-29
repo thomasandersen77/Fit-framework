@@ -51,6 +51,9 @@ public class UndertowContainer {
             resteasyDeployment.setInjectorFactoryClass(CDIInjectorFactory.class.getName());
 
             ListenerInfo listener = Servlets.listener(CDIRequestListener.class);
+            // ListenerInfo weldListener = Servlets.listener()
+
+
 
             ServletInfo resteasyServlet = Servlets.servlet("ResteasyServlet", HttpServlet30Dispatcher.class)
                     .setAsyncSupported(true)
@@ -59,6 +62,7 @@ public class UndertowContainer {
 
             DeploymentInfo deploymentInfo = new DeploymentInfo()
                     .addListener(listener)
+
                     .setContextPath("/")
                     .addServletContextAttribute(ResteasyDeployment.class.getName(), resteasyDeployment)
                     .addServlet(resteasyServlet).setDeploymentName("UndertowContainer")

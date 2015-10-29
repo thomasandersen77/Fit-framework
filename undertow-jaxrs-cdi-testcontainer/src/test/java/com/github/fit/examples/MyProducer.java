@@ -2,15 +2,15 @@ package com.github.fit.examples;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.sql.DataSource;
-
-import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
 
 @ApplicationScoped
 public class MyProducer {
+
+    @Produces
+    MyProducedBean myProducedBean() {
+        return new MyProducedBean();
+    }
+
     /*
     @Produces
     public DataSource dataSource() {
@@ -25,12 +25,12 @@ public class MyProducer {
          emFactory = Persistence.createEntityManagerFactory("kommunetjeneste");
 
     }
-*/
+*//*
     @Produces
-    public EntityManager entityManager(){
-        EntityManager entityManager = entityManagerFatory().createEntityManager();
-        System.out.println("Create EntityManager : " + entityManager);
-        return entityManager;
+    public EntityManager myProducedBean(){
+        EntityManager myProducedBean = entityManagerFatory().createEntityManager();
+        System.out.println("Create EntityManager : " + myProducedBean);
+        return myProducedBean;
     }
 
     @Produces
@@ -38,5 +38,5 @@ public class MyProducer {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
         System.out.println("Create EntityManagerFactory : " + entityManagerFactory);
         return entityManagerFactory;
-    }
+    }*/
 }

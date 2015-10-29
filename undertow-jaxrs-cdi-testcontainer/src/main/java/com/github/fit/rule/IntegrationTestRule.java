@@ -1,5 +1,9 @@
 package com.github.fit.rule;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.github.fit.mongo.EmbeddedMongoRunner;
 import com.github.fit.undertow.UndertowContainer;
 import com.github.fit.undertow.HttpUtils;
@@ -12,6 +16,8 @@ import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
+import javax.ejb.embeddable.EJBContainer;
+import javax.naming.Context;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 
@@ -23,6 +29,7 @@ public class IntegrationTestRule implements MethodRule, TestRule {
     private EmbeddedMongoRunner embeddedMongoRunner=new EmbeddedMongoRunner();
     private boolean runWiremock;
     private boolean runEmbeddedMongo;
+
 
     public IntegrationTestRule(Application application, boolean runWiremock, boolean runEmbeddedMongo) {
         if(runWiremock) {

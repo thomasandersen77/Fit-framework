@@ -17,7 +17,7 @@ public class CheckUsernameRequestFilter implements ContainerRequestFilter{
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
-        System.err.println("RequestURI: {"+requestContext.getUriInfo().getRequestUri());
+        System.err.println("CheckUsernameRequestFilter RequestURI: {"+requestContext.getUriInfo().getRequestUri());
         if(!validUsername()) {
             throw new ForbiddenException("Username missing from HTTP header");
         }

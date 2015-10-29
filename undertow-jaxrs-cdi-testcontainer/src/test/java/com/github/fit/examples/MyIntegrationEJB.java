@@ -12,6 +12,10 @@ public class MyIntegrationEJB {
 
     Client myClient = ClientBuilder.newClient();
 
+    public MyIntegrationEJB() {
+        System.err.println("Startup Stateless");
+    }
+
     public String foo(){
         String urlEjbIntegration = System.getProperty("it.ejb.url");
 

@@ -63,6 +63,6 @@ public class UndertowContainerTest {
 
         assertNotNull(response);
         assertTrue(response.contains(WIREMOCK_STRING_RESPONSE));
-        //System.out.println("Response message: " + response);
+        System.out.println("Response message: " + response);
     }
 }
