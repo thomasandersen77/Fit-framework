@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(FitITestRunner.class)
-public class UndertowContainerTest {
+public class UndertowServerJunitRuleTest {
 
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 

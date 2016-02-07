@@ -13,6 +13,9 @@ public class MyApplication extends Application {
         classes.add(MyResource.class);
         classes.add(CheckUsernameRequestFilter.class);
         classes.add(ForbiddenExceptionMapper.class);
+        classes.add(JsonContextResolver.class);
+        // en testklasse
+        classes.add(TestRessurs.class);
         return classes;
     }
 }

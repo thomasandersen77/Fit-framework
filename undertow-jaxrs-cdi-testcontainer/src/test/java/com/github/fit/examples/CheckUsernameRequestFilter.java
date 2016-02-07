@@ -1,6 +1,5 @@
 package com.github.fit.examples;
 
-import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Context;
@@ -17,10 +16,10 @@ public class CheckUsernameRequestFilter implements ContainerRequestFilter{
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
-        System.err.println("CheckUsernameRequestFilter RequestURI: {"+requestContext.getUriInfo().getRequestUri());
-        if(!validUsername()) {
-            throw new ForbiddenException("Username missing from HTTP header");
-        }
+        //System.err.println("CheckUsernameRequestFilter RequestURI: {"+requestContext.getUriInfo().getRequestUri());
+        //if(!validUsername()) {
+        //    throw new ForbiddenException("Username missing from HTTP header");
+        //}
     }
 
     private boolean validUsername() {

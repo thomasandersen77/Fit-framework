@@ -1,11 +1,7 @@
 package com.github.fit.rule;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.github.fit.mongo.EmbeddedMongoRunner;
-import com.github.fit.undertow.UndertowContainer;
+import com.github.fit.undertow.UndertowServer;
 import com.github.fit.undertow.HttpUtils;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
@@ -16,8 +12,6 @@ import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
-import javax.ejb.embeddable.EJBContainer;
-import javax.naming.Context;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 
@@ -25,7 +19,7 @@ import javax.ws.rs.core.Application;
 public class IntegrationTestRule implements MethodRule, TestRule {
     private final int wiremockPort = HttpUtils.allocatePort();
     private WireMockServer wireMockServer;
-    private UndertowContainer testContainer;
+    private UndertowServer testContainer;
     private EmbeddedMongoRunner embeddedMongoRunner=new EmbeddedMongoRunner();
     private boolean runWiremock;
     private boolean runEmbeddedMongo;
@@ -35,7 +29,7 @@ public class IntegrationTestRule implements MethodRule, TestRule {
         if(runWiremock) {
             this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(wiremockPort));
         }
-        this.testContainer = new UndertowContainer(application);
+        this.testContainer = new UndertowServer(application);
         this.runWiremock = runWiremock;
         this.runEmbeddedMongo =runEmbeddedMongo;
     }
