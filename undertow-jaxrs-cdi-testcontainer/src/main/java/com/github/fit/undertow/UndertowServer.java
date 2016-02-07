@@ -30,7 +30,7 @@ public class UndertowServer {
     private String contextPath = "";
 
     public UndertowServer(Application application) {
-        this.port = HttpUtils.allocatePort();
+        this.port = -1;// = HttpUtils.allocatePort();
         this.application = application;
     }
 

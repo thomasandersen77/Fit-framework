@@ -17,6 +17,7 @@ import javax.ws.rs.core.Application;
 
 
 public class IntegrationTestRule implements MethodRule, TestRule {
+    private final int SPOKNAD= HttpUtils.allocatePort();
     private final int wiremockPort = HttpUtils.allocatePort();
     private WireMockServer wireMockServer;
     private UndertowServer testContainer;
