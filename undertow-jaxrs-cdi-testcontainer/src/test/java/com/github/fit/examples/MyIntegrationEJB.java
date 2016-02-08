@@ -1,19 +1,19 @@
 package com.github.fit.examples;
 
-import javax.ejb.Startup;
-import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 
-@Stateless
-@Startup
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 public class MyIntegrationEJB {
 
     Client myClient = ClientBuilder.newClient();
 
     public MyIntegrationEJB() {
-        System.err.println("Startup Stateless");
+        log.info("Startup Stateless");
     }
 
     public String foo(){

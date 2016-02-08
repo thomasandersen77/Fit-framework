@@ -6,6 +6,9 @@ import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Path("/")
 public class MyResource {
 
@@ -17,8 +20,8 @@ public class MyResource {
 
     @GET
     public String echo(){
-        System.out.println("Inide echo");
-        System.out.println(myProducedBean);
+        log.info("Inide echo");
+        log.info("\techo myProducedBean instance", myProducedBean);
         return "Echo from resource. Message from injected bean: \n" +
                 "\t[" + myInjectableBean +"]";
     }

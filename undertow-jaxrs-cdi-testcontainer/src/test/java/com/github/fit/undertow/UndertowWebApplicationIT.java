@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @Slf4j
-public class UndertowWebApplication {
+public class UndertowWebApplicationIT {
     public static void main(String[] args) {
         //************************* Må ha et endepunkt for å teste EJB'en *****************/
         int wiremockPort = HttpUtils.allocatePort();
@@ -26,9 +26,8 @@ public class UndertowWebApplication {
 
         //************************* Her starter UndertowServer med CDI og JAX RS *****************/
 
-        final UndertowServer server = new UndertowServer(new MyApplication());
-        server.setBindAddress("0.0.0.0");
-        server.setContextPath("test");
+        final UndertowServer server = new UndertowServer(MyApplication.class, "/rest");
+        server.setBindAddress("localhost");
         server.setPort(8080);
         server.start();
 
