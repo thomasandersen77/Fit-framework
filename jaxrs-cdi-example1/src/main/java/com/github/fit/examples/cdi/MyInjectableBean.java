@@ -2,14 +2,12 @@ package com.github.fit.examples.cdi;
 
 import javax.inject.Inject;
 
-import lombok.Setter;
-
 public class MyInjectableBean {
 
     @Inject
-    private MyIntegrationEJB ejb;
+    private MyRemoteIntegrationBean ejb;
 
-    public void setEjb(MyIntegrationEJB ejb) {
+    public void setEjb(MyRemoteIntegrationBean ejb) {
         this.ejb = ejb;
     }
 

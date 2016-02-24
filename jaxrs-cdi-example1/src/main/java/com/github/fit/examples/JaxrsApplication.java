@@ -1,22 +1,24 @@
 package com.github.fit.examples;
 
+import java.util.Collections;
+import java.util.Set;
+
+import com.github.fit.examples.cdi.MyInjectableBean;
+import com.github.fit.examples.cdi.MyRemoteIntegrationBean;
 import com.github.fit.examples.jaxrs.CheckUsernameRequestFilter;
 import com.github.fit.examples.jaxrs.ForbiddenExceptionMapper;
 import com.github.fit.examples.jaxrs.MyResource;
+import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
 
 @ApplicationPath("/")
-public class JaxrsApplication extends Application {
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> classes = new HashSet<>();
-        classes.add(MyResource.class);
-        classes.add(CheckUsernameRequestFilter.class);
-        classes.add(ForbiddenExceptionMapper.class);
-        return classes;
+public class JaxrsApplication extends ResourceConfig {
+    public JaxrsApplication() {
+        register(MyResource.class);
+        register(ForbiddenExceptionMapper.class);
+        register(CheckUsernameRequestFilter.class);
+        register(MyRemoteIntegrationBean.class);
+        register(MyInjectableBean.class);
     }
 }

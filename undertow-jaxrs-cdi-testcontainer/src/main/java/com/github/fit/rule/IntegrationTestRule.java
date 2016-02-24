@@ -12,6 +12,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
+import javax.servlet.ServletException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 
@@ -30,13 +31,17 @@ public class IntegrationTestRule implements MethodRule, TestRule {
         if(runWiremock) {
             this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(wiremockPort));
         }
-        this.testContainer = new UndertowServer(testContainerPort, application.getClass());
+        try {
+            UndertowServer.startContainer(testContainerPort, application);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         this.runWiremock = runWiremock;
         this.runEmbeddedMongo =runEmbeddedMongo;
     }
 
     public int getAppPort() {
-        return testContainer.getPort();
+        return 0;///testContainer.getPort();
     }
 
     public int getWiremockPort() {
@@ -59,13 +64,13 @@ public class IntegrationTestRule implements MethodRule, TestRule {
                 if(runEmbeddedMongo) {
                     embeddedMongoRunner.startMongo();
                 }
-                testContainer.start();
+
                 try {
                     before();
                     statement.evaluate();
                 } finally {
                     after();
-                    testContainer.stop();
+
                     if(runWiremock && wireMockServer != null && wireMockServer.isRunning()) {
                         wireMockServer.stop();
                     }

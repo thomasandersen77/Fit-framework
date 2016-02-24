@@ -6,16 +6,9 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 
-@Stateless
-@Startup
-public class MyIntegrationEJB {
+public class MyRemoteIntegrationBean {
 
     Client myClient = ClientBuilder.newClient();
-
-
-    public MyIntegrationEJB() {
-        System.out.println("****** onStartup ************");
-    }
 
     public String foo(){
         String urlEjbIntegration = System.getProperty("it.ejb.url");

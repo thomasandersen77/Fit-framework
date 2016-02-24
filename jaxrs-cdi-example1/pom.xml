@@ -11,6 +11,30 @@
 
     <artifactId>jaxrs-cdi-example1</artifactId>
     <dependencies>
+
+    <dependency>
+        <groupId>org.apache.deltaspike.cdictrl</groupId>
+        <artifactId>deltaspike-cdictrl-api</artifactId>
+        <version>1.0.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.deltaspike.modules</groupId>
+        <artifactId>deltaspike-jpa-module-impl</artifactId>
+        <version>1.0.1</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>4.3.6.Final</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.deltaspike.modules</groupId>
+        <artifactId>deltaspike-data-module-impl</artifactId>
+        <version>1.0.1</version>
+        <scope>provided</scope>
+    </dependency>
         <dependency>
             <groupId>org.github.fit-framework</groupId>
             <artifactId>undertow-jaxrs-cdi-testcontainer</artifactId>

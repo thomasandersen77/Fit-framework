@@ -1,5 +1,7 @@
 package com.github.fit.undertow;
 
+import javax.servlet.ServletException;
+
 import com.github.fit.examples.MyApplication;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
@@ -10,7 +12,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @Slf4j
 public class UndertowWebApplicationIT {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ServletException {
         //************************* Må ha et endepunkt for å teste EJB'en *****************/
         int wiremockPort = HttpUtils.allocatePort();
         System.setProperty("it.ejb.url", "http://localhost:" + wiremockPort +"/integration/ejb/message");
@@ -26,16 +28,14 @@ public class UndertowWebApplicationIT {
 
         //************************* Her starter UndertowServer med CDI og JAX RS *****************/
 
-        final UndertowServer server = new UndertowServer(MyApplication.class, "/rest");
-        server.setBindAddress("localhost");
-        server.setPort(8080);
-        server.start();
+        UndertowServer.startContainer(8080, new MyApplication());
+
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 log.info("Shutting down UndertowServer");
-                server.stop();
+                UndertowServer.stopContainer();
                 wireMockServer.shutdown();
             }
         });
