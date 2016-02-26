@@ -4,6 +4,7 @@ package com.github.fit.client;
 import java.sql.Connection;
 
 import com.github.fit.examples.JaxrsApplication;
+import com.github.fit.undertow.HttpUtils;
 import com.github.fit.undertow.UndertowServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;

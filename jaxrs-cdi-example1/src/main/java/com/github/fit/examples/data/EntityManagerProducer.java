@@ -30,9 +30,6 @@ public class EntityManagerProducer {
     @Produces
     @RequestScoped
     protected EntityManager createEntityManager() {
-        // LocalContext localContext = LocalContextFactory.createLocalContext("org.h2.Driver");
-        //System.setProperty("java.naming.factory.initial", LocalContext.class.getName());
-
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("primary", getDbProperties());
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager;
@@ -42,10 +39,6 @@ public class EntityManagerProducer {
         if (entityManager.isOpen()) {
             entityManager.close();
         }
-    }
-
-    private boolean overrideConfig(){
-        return dbUrl != null && user != null && password != null;
     }
 
     private Map<String, String> getDbProperties() {
