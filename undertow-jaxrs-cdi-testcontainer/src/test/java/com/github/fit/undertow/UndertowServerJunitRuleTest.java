@@ -8,6 +8,7 @@ import com.github.fit.examples.MyApplication;
 import com.github.fit.rule.IntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -40,6 +41,7 @@ public class UndertowServerJunitRuleTest {
                         .withBody(WIREMOCK_STRING_RESPONSE)));
     }
 
+    @Ignore
     @Test
     public void test_my_resource_with_valid_username() throws Exception {
         Response response = ResteasyClientBuilder.newClient()
@@ -53,6 +55,7 @@ public class UndertowServerJunitRuleTest {
         assertEquals(200, response.getStatus());
     }
 
+    @Ignore
     @Test
     public void test_my_resource_with_valid_username_to_string() throws Exception {
           String response = ResteasyClientBuilder.newClient()
