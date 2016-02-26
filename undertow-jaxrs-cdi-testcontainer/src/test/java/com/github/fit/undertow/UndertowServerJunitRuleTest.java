@@ -1,30 +1,30 @@
 package com.github.fit.undertow;
 
 
-import com.github.fit.annotations.FitITestRunner;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import com.github.fit.examples.MyApplication;
 import com.github.fit.rule.IntegrationTestRule;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(FitITestRunner.class)
 public class UndertowServerJunitRuleTest {
 
     public static final String WIREMOCK_STRING_RESPONSE = "**** HELLO FROM WIREMOCK ******";
 
     @Rule
-    public IntegrationTestRule container = new IntegrationTestRule(new MyApplication(), true, false);
+    public IntegrationTestRule container = new IntegrationTestRule(new MyApplication(), true);
 
     @Before
     public void setUpMockedAdress() {

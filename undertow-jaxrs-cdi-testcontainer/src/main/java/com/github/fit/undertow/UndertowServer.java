@@ -3,49 +3,44 @@ package com.github.fit.undertow;
 import javax.servlet.ServletException;
 import javax.ws.rs.core.Application;
 
-import io.undertow.Handlers;
 import io.undertow.Undertow;
-import io.undertow.UndertowOptions;
-import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.DeploymentManager;
-//import org.glassfish.jersey.servlet.ServletContainer;
-import org.jboss.weld.environment.servlet.Listener;
+import lombok.extern.slf4j.Slf4j;
+import org.jboss.resteasy.cdi.CdiInjectorFactory;
+import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
+import org.jboss.resteasy.spi.ResteasyDeployment;
 
+@Slf4j
 public class UndertowServer {
-    private static Undertow server;
+    private UndertowJaxrsServer server = new UndertowJaxrsServer();
+    private int serverPort;
 
-    public static void stopContainer(){
+    public UndertowServer(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    public void stopContainer(){
         server.stop();
     }
 
-    public static void startContainer(int port, Application application) throws ServletException {
-        DeploymentInfo servletBuilder = Servlets.deployment();
+    public void startContainer(Application application) throws ServletException {
+        Undertow.Builder serverBuilder = Undertow.builder().addHttpListener(getServerPort(), "0.0.0.0");
+        server.start(serverBuilder);
+        ResteasyDeployment deployment = new ResteasyDeployment();
+        deployment.setInjectorFactoryClass(CdiInjectorFactory.class.getName());
 
-        servletBuilder
-                .setClassLoader(UndertowServer.class.getClassLoader())
+        deployment.setApplication(application);
+        final DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
+                .setClassLoader(ClassLoader.getSystemClassLoader())
                 .setContextPath("/")
-                .setDeploymentName(application.getClass().getName()+ ".war")
-                .addListeners(Servlets.listener(Listener.class));
-                /*.addServlets(Servlets.servlet("jerseyServlet", ServletContainer.class)
-                        .setLoadOnStartup(1)
-                        .addInitParam("javax.ws.rs.Application", application.getClass().getName())
-                        .addMapping("/*"));*/
+                .setDeploymentName(application.getClass().getSimpleName())
+                .addListeners(Servlets.listener(org.jboss.weld.environment.servlet.Listener.class));
+        server.deploy(deploymentInfo);
+        log.info("Undertow started at port {}", getServerPort());
+    }
 
-        DeploymentManager manager = Servlets.defaultContainer().addDeployment(servletBuilder);
-        manager.deploy();
-        PathHandler path = Handlers.path(Handlers.redirect("/"))
-                .addPrefixPath("/", manager.start());
-
-        server =
-                Undertow
-                        .builder()
-                        .addHttpListener(port, "localhost")
-                        .setHandler(path)
-                        //.setServerOption(UndertowOptions.ENABLE_HTTP2)
-                        .build();
-
-        server.start();
+    public int getServerPort() {
+        return serverPort;
     }
 }

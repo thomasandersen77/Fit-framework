@@ -1,8 +1,11 @@
 package com.github.fit.rule;
 
-import com.github.fit.mongo.EmbeddedMongoRunner;
-import com.github.fit.undertow.UndertowServer;
+import javax.servlet.ServletException;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Application;
+
 import com.github.fit.undertow.HttpUtils;
+import com.github.fit.undertow.UndertowServer;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
@@ -12,36 +15,29 @@ import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
-import javax.servlet.ServletException;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Application;
-
 
 public class IntegrationTestRule implements MethodRule, TestRule {
     private final int testContainerPort = HttpUtils.allocatePort();
     private final int wiremockPort = HttpUtils.allocatePort();
     private WireMockServer wireMockServer;
-    private UndertowServer testContainer;
-    private EmbeddedMongoRunner embeddedMongoRunner=new EmbeddedMongoRunner();
     private boolean runWiremock;
-    private boolean runEmbeddedMongo;
+    private UndertowServer undertowServer = new UndertowServer(testContainerPort);
 
 
-    public IntegrationTestRule(Application application, boolean runWiremock, boolean runEmbeddedMongo) {
+    public IntegrationTestRule(Application application, boolean runWiremock) {
         if(runWiremock) {
             this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(wiremockPort));
         }
         try {
-            UndertowServer.startContainer(testContainerPort, application);
+            undertowServer.startContainer(application);
         } catch (ServletException e) {
             e.printStackTrace();
         }
         this.runWiremock = runWiremock;
-        this.runEmbeddedMongo =runEmbeddedMongo;
     }
 
     public int getAppPort() {
-        return 0;///testContainer.getPort();
+        return undertowServer.getServerPort();
     }
 
     public int getWiremockPort() {
@@ -61,9 +57,6 @@ public class IntegrationTestRule implements MethodRule, TestRule {
                     wireMockServer.start();
                     WireMock.configureFor("localhost", getWiremockPort());
                 }
-                if(runEmbeddedMongo) {
-                    embeddedMongoRunner.startMongo();
-                }
 
                 try {
                     before();
@@ -74,9 +67,7 @@ public class IntegrationTestRule implements MethodRule, TestRule {
                     if(runWiremock && wireMockServer != null && wireMockServer.isRunning()) {
                         wireMockServer.stop();
                     }
-                    if(runEmbeddedMongo) {
-                        embeddedMongoRunner.shutdownMongo();
-                    }
+                    undertowServer.stopContainer();
                 }
             }
         };
