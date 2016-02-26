@@ -8,9 +8,9 @@
   <changeSet id="Dokument#1-opprett_test_tabell" author="HOTA">
     <createTable tableName="BaseEntity">
       <column name="id" type="int" autoIncrement="true">
-        <constraints primaryKey="true" nullable="false" primaryKeyName="PK_Soknad"/>
+        <constraints primaryKey="true" nullable="false" />
       </column>
-      <column name="Fornanvn" type="varchar(50)" >
+      <column name="Fornavn" type="varchar(50)" >
         <constraints nullable="false" />
       </column>
     </createTable>

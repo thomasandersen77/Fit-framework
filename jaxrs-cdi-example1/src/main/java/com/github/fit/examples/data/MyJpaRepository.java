@@ -4,25 +4,32 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
 
 import com.github.fit.examples.entites.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.deltaspike.jpa.api.transaction.TransactionScoped;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
+
 
 @Slf4j
 public class MyJpaRepository {
 
     @Inject
+    @PersistenceContext
     EntityManager entityManager;
 
+    @TransactionScoped
     @Transactional
     public String executeInTransaction() {
         log.info("***** executeInTransaction called **********");
         log.info("EntityManager is {}:", entityManager);
         BaseEntity baseEntity = new BaseEntity();
-        baseEntity.setFornavn("thomas");
+
         entityManager.persist(baseEntity);
+
         return "SUCCESS";
     }
 

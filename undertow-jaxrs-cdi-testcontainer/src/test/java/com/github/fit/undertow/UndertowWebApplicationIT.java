@@ -29,7 +29,7 @@ public class UndertowWebApplicationIT {
         //************************* Her starter UndertowServer med CDI og JAX RS *****************/
 
         UndertowServer server = new UndertowServer(HttpUtils.allocatePort());
-
+        server.startContainer(new MyApplication());
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override

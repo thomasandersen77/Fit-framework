@@ -5,10 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Entity
@@ -23,7 +23,7 @@ public class BaseEntity {
     @Setter(AccessLevel.NONE)
     private int id;
 
-    @NonNull
+    @NotNull
     @Column(name = "Fornanvn")
     private String fornavn;
 }

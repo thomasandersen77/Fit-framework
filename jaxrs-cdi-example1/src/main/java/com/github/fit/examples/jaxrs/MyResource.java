@@ -29,7 +29,12 @@ public class MyResource {
         String echoMsg = "Echo from resource. Message from injected bean: \n" +
                 "\t[" + myInjectableBean +"]";
 
-        String executeInTransactionMsg = myJpaRepository.executeInTransaction();
+        String executeInTransactionMsg = null;
+        try {
+            executeInTransactionMsg = myJpaRepository.executeInTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         List<BaseEntity> entity = myJpaRepository.getEntity();
         log.info("Entiteter: {}", entity);

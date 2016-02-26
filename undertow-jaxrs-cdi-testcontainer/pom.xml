@@ -36,11 +36,13 @@
       <artifactId>jandex</artifactId>
       <version>1.2.2.Final</version>
     </dependency>
+    <!--
     <dependency>
       <groupId>org.apache.deltaspike.cdictrl</groupId>
       <artifactId>deltaspike-cdictrl-api</artifactId>
       <version>${deltaspike.version}</version>
     </dependency>
+    -->
     <dependency>
       <groupId>org.apache.deltaspike.modules</groupId>
       <artifactId>deltaspike-servlet-module-api</artifactId>

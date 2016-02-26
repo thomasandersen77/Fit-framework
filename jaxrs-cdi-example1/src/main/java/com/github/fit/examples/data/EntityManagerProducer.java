@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 import no.husbanken.config.Config;
 
@@ -30,7 +31,7 @@ public class EntityManagerProducer {
     @Produces
     @RequestScoped
     protected EntityManager createEntityManager() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("primary", getDbProperties());
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("primary");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager;
     }
